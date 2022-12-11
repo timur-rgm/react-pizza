@@ -16,15 +16,14 @@ function App(): JSX.Element {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <Pizza />
-            <Pizza />
-            <Pizza />
-            <Pizza />
-            <Pizza />
-            <Pizza />
-            <Pizza />
-            <Pizza />
-            <Pizza />
+            <Pizza title="Маргарита" price={450} />
+            <Pizza title="Четыре сезона" price={395} />
+            <Pizza title="Пепперони" price={675} />
+            <Pizza title="Чизбургер-пицца" price={415} />
+            <Pizza title="Овощи и грибы 🌱" price={285} />
+            <Pizza title="Сырная" price={245} />
+            <Pizza title="Пепперони Фреш с перцем" price={803} />
+            <Pizza title="Цыпленок барбекю" price={295} />
           </div>
         </div>
       </div>
