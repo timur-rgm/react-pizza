@@ -24,6 +24,7 @@ function App(): JSX.Element {
                 image={item.imageUrl}
                 sizes={item.sizes}
                 types={item.types}
+                key={item.id}
               />
             ))}
           </div>

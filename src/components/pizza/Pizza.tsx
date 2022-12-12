@@ -17,9 +17,14 @@ function Pizza({
   types,
 }: PizzaPropsType): JSX.Element {
   const [typeActive, setTypeActive] = useState(0);
+  const [sizeActive, setSizeActive] = useState(0);
 
   const handleTypeClick = (id: number) => {
     setTypeActive(id);
+  };
+
+  const handleSizeClick = (index: number) => {
+    setSizeActive(index);
   };
 
   return (
@@ -40,7 +45,13 @@ function Pizza({
         </ul>
         <ul>
           {sizes.map((size, index) => (
-            <li key={size + index}>{size} см.</li>
+            <li
+              onClick={() => handleSizeClick(index)}
+              className={index === sizeActive ? 'active' : ''}
+              key={size + index}
+            >
+              {size} см.
+            </li>
           ))}
         </ul>
       </div>
