@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { pizzaTypes } from '../../const';
 
 type PizzaPropsType = {
@@ -15,6 +16,12 @@ function Pizza({
   sizes,
   types,
 }: PizzaPropsType): JSX.Element {
+  const [typeActive, setTypeActive] = useState(0);
+
+  const handleTypeClick = (id: number) => {
+    setTypeActive(id);
+  };
+
   return (
     <div className="pizza-block">
       <img className="pizza-block__image" src={image} alt="Pizza" />
@@ -22,7 +29,13 @@ function Pizza({
       <div className="pizza-block__selector">
         <ul>
           {types.map((type, index) => (
-            <li key={(type = index)}>{pizzaTypes[type]}</li>
+            <li
+              onClick={() => handleTypeClick(type)}
+              className={index === typeActive ? 'active' : ''}
+              key={(type = index)}
+            >
+              {pizzaTypes[type]}
+            </li>
           ))}
         </ul>
         <ul>
