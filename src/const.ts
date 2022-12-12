@@ -5,3 +5,5 @@ export const categories: string[] = [
   'Острые',
   'Закрытые',
 ];
+
+export const pizzaTypes: string[] = ['тонкое', 'традиционное'];
