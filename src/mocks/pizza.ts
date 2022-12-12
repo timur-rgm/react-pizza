@@ -102,7 +102,7 @@ export const pizza = [
     id: 9,
     imageUrl:
       'https://dodopizza.azureedge.net/static/Img/Products/Pizza/ru-RU/30367198-f3bd-44ed-9314-6f717960da07.jpg',
-    title: 'Овощи и грибы 🌱',
+    title: 'Овощи и грибы',
     types: [0, 1],
     sizes: [26, 30, 40],
     price: 285,
