@@ -6,4 +6,6 @@ export const categories: string[] = [
   'Закрытые',
 ];
 
+export const sortTypes: string[] = ['популярности', 'цене', 'алфавиту'];
+
 export const pizzaTypes: string[] = ['тонкое', 'традиционное'];
