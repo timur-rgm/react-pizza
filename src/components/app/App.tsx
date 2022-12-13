@@ -1,11 +1,20 @@
+import { useEffect, useState } from 'react';
 import Header from '../header/Header';
 import Categories from '../categories/Categories';
 import Sort from '../sort/Sort';
 import Pizza from '../pizza/Pizza';
-import { pizza } from '../../mocks/pizza';
+import { PizzaListType } from '../../types/pizza';
 import '../../scss/app.scss';
 
 function App(): JSX.Element {
+  const [pizza, setPizza] = useState<PizzaListType>([]);
+
+  useEffect(() => {
+    fetch('https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza')
+      .then((response) => response.json())
+      .then((pizza) => setPizza(pizza));
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />

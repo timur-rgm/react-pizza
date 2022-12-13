@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { sortTypes } from '../../const';
 
 function Sort(): JSX.Element {
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedType, setSelectedType] = useState<string>(sortTypes[0]);
 
   const handleSortListClick = () => {
-    setOpen((prevIsOpen) => !prevIsOpen);
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
   const handleSortTypeSelect = (type: string) => {
     setSelectedType(type);
-    setOpen(false);
+    setIsOpen(false);
   };
 
   return (
