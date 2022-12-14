@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from '../header/Header';
 import Main from '../../pages/Main';
-import NoFound from '../../pages/Not-found';
+import Error from '../../pages/Error';
 import '../../scss/app.scss';
 
 function App(): JSX.Element {
@@ -10,7 +10,7 @@ function App(): JSX.Element {
       <Header />
       <div className="content">
         <div className="container">
-          <Main />
+          <Error />
         </div>
       </div>
     </div>
