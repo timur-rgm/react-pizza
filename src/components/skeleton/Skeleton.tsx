@@ -1,6 +1,6 @@
 import ContentLoader from 'react-content-loader';
 
-function Skeleton() {
+function Skeleton(): JSX.Element {
   return (
     <ContentLoader
       className="pizza-block"
