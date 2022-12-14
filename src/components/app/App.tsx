@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Header from '../header/Header';
 import Main from '../../pages/Main';
 import Error from '../../pages/Error';
@@ -10,7 +10,10 @@ function App(): JSX.Element {
       <Header />
       <div className="content">
         <div className="container">
-          <Error />
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
         </div>
       </div>
     </div>
