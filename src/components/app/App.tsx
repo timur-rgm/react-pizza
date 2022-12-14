@@ -3,6 +3,7 @@ import Header from '../header/Header';
 import Categories from '../categories/Categories';
 import Sort from '../sort/Sort';
 import Pizza from '../pizza/Pizza';
+import Skeleton from '../skeleton/Skeleton';
 import { PizzaListType } from '../../types/pizza';
 import '../../scss/app.scss';
 
