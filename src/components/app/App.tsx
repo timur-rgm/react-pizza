@@ -9,11 +9,15 @@ import '../../scss/app.scss';
 
 function App(): JSX.Element {
   const [pizza, setPizza] = useState<PizzaListType>([]);
+  const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetch('https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza')
       .then((response) => response.json())
-      .then((pizza) => setPizza(pizza));
+      .then((pizza) => {
+        setPizza(pizza);
+        setIsPizzaLoading(false);
+      });
   }, []);
 
   return (
@@ -27,16 +31,20 @@ function App(): JSX.Element {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            {pizza.map((item) => (
-              <Pizza
-                title={item.title}
-                price={item.price}
-                image={item.imageUrl}
-                sizes={item.sizes}
-                types={item.types}
-                key={item.id}
-              />
-            ))}
+            {isPizzaLoading
+              ? [...new Array(8)].map((_item, index) => (
+                  <Skeleton key={index} />
+                ))
+              : pizza.map((item) => (
+                  <Pizza
+                    title={item.title}
+                    price={item.price}
+                    image={item.imageUrl}
+                    sizes={item.sizes}
+                    types={item.types}
+                    key={item.id}
+                  />
+                ))}
           </div>
         </div>
       </div>
