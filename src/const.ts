@@ -1,4 +1,7 @@
+import { SortTypes } from './types/sort';
+
 export const categories: string[] = [
+  'Все',
   'Мясные',
   'Вегетарианская',
   'Гриль',
@@ -6,6 +9,19 @@ export const categories: string[] = [
   'Закрытые',
 ];
 
-export const sortTypes: string[] = ['популярности', 'цене', 'алфавиту'];
+export const sorting: SortTypes = [
+  {
+    type: 'rating',
+    name: 'популярности',
+  },
+  {
+    type: 'price',
+    name: 'цене',
+  },
+  {
+    type: 'title',
+    name: 'алфавиту',
+  },
+];
 
 export const pizzaTypes: string[] = ['тонкое', 'традиционное'];

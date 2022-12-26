@@ -1,17 +1,17 @@
 import { useState } from 'react';
-import { sortTypes } from '../../const';
+import { sorting } from '../../const';
+import { SortType } from '../../types/sort';
 
-function Sort(): JSX.Element {
+type SortPropsType = {
+  type: SortType;
+  onTypeChange: (type: SortType) => void;
+};
+
+function Sort({ type, onTypeChange }: SortPropsType): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedType, setSelectedType] = useState<string>(sortTypes[0]);
 
   const handleSortListClick = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
-
-  const handleSortTypeSelect = (type: string) => {
-    setSelectedType(type);
-    setIsOpen(false);
   };
 
   return (
@@ -30,18 +30,18 @@ function Sort(): JSX.Element {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={handleSortListClick}>{selectedType}</span>
+        <span onClick={handleSortListClick}>{type.name}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortTypes.map((type, index) => (
+            {sorting.map((sort) => (
               <li
-                onClick={() => handleSortTypeSelect(type)}
-                className={type === selectedType ? 'active' : ''}
-                key={type + index}
+                onClick={() => onTypeChange(sort)}
+                className={sort === type ? 'active' : ''}
+                key={sort.type}
               >
-                {type}
+                {sort.name}
               </li>
             ))}
           </ul>

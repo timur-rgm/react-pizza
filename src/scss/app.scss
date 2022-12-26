@@ -28,6 +28,11 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     grid-column-gap: 11px;
     justify-items: center;
+
+    &--card {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 
   &__top {

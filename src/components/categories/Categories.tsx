@@ -1,20 +1,18 @@
-import { useState } from 'react';
 import { categories } from '../../const';
 
-function Categories(): JSX.Element {
-  const [categoryActiveId, setCategoryActiveId] = useState(0);
+type CategoriesPropsType = {
+  id: number;
+  onCategoryClick: (id: number) => void;
+};
 
-  const handleCategoryClick = (index: number) => {
-    setCategoryActiveId(index);
-  };
-
+function Categories({ id, onCategoryClick }: CategoriesPropsType): JSX.Element {
   return (
     <div className="categories">
       <ul>
         {categories.map((category, index) => (
           <li
-            onClick={() => handleCategoryClick(index)}
-            className={categoryActiveId === index ? 'active' : ''}
+            onClick={() => onCategoryClick(index)}
+            className={id === index ? 'active' : ''}
             key={category + index}
           >
             {category}
