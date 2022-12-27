@@ -6,7 +6,7 @@ import Sort from '../components/sort/Sort';
 function Error(): JSX.Element {
   return (
     <div className="wrapper">
-      <Header />
+      {/* <Header /> */}
       <div className="content">
         <div className="container">
           <div className="content__top">

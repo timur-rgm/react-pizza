@@ -11,12 +11,16 @@ import { SortType } from '../types/sort';
 function Main() {
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
-
+  const [searchInputValue, setSearchInputValue] = useState<string>('');
   const [orderType, setOrderType] = useState<string>('desc');
   const [currentCategoryId, setCurrentCategoryId] = useState<number>(0);
   const [selectedSortType, setSelectedSortType] = useState<SortType>(
     sorting[0]
   );
+
+  const handleSearchInputChange = (value: string) => {
+    setSearchInputValue(value);
+  };
 
   const handleOrderClick = (order: string) => {
     setOrderType(order);
@@ -35,18 +39,23 @@ function Main() {
     fetch(
       `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?${
         currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
-      }&sortBy=${selectedSortType.type}&order=${orderType}`
+      }&sortBy=${selectedSortType.type}&order=${orderType}${
+        searchInputValue ? `&search=${searchInputValue}` : ''
+      }`
     )
       .then((response) => response.json())
       .then((pizza) => {
         setPizza(pizza);
         setIsPizzaLoading(false);
       });
-  }, [currentCategoryId, selectedSortType, orderType]);
+  }, [currentCategoryId, selectedSortType, orderType, searchInputValue]);
 
   return (
     <div className="wrapper">
-      <Header />
+      <Header
+        searchValue={searchInputValue}
+        onSearchChange={handleSearchInputChange}
+      />
       <div className="content">
         <div className="container">
           <div className="content__top">

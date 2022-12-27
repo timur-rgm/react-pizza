@@ -4,7 +4,7 @@ import Header from '../components/header/Header';
 function Card(): JSX.Element {
   return (
     <div className="wrapper">
-      <Header />
+      {/* <Header /> */}
       <div className="content">
         <div className="container container--cart">
           <div className="cart">
