@@ -1,5 +1,4 @@
 import { ChangeEvent } from "react";
-import { InputType } from "zlib";
 
 type SearchPropsType = {
   value: string;

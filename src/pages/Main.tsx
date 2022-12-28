@@ -7,6 +7,7 @@ import Skeleton from '../components/skeleton/Skeleton';
 import { sorting } from '../const';
 import { PizzaListType } from '../types/pizza';
 import { SortType } from '../types/sort';
+import Pagination from '../components/pagination/Pagination';
 
 function Main() {
   const [pizza, setPizza] = useState<PizzaListType>([]);
@@ -86,6 +87,7 @@ function Main() {
                   />
                 ))}
           </div>
+          <Pagination />
         </div>
       </div>
     </div>
