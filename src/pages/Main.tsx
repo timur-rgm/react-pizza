@@ -3,15 +3,16 @@ import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
 import Sort from '../components/sort/Sort';
 import Pizza from '../components/pizza/Pizza';
+import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
 import { sorting } from '../const';
 import { PizzaListType } from '../types/pizza';
 import { SortType } from '../types/sort';
-import Pagination from '../components/pagination/Pagination';
 
 function Main() {
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchInputValue, setSearchInputValue] = useState<string>('');
   const [orderType, setOrderType] = useState<string>('desc');
   const [currentCategoryId, setCurrentCategoryId] = useState<number>(0);
@@ -35,10 +36,14 @@ function Main() {
     setSelectedSortType(type);
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page + 1);
+  };
+
   useEffect(() => {
     setIsPizzaLoading(true);
     fetch(
-      `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?${
+      `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
         currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
       }&sortBy=${selectedSortType.type}&order=${orderType}${
         searchInputValue ? `&search=${searchInputValue}` : ''
@@ -49,7 +54,13 @@ function Main() {
         setPizza(pizza);
         setIsPizzaLoading(false);
       });
-  }, [currentCategoryId, selectedSortType, orderType, searchInputValue]);
+  }, [
+    currentCategoryId,
+    selectedSortType,
+    orderType,
+    searchInputValue,
+    currentPage,
+  ]);
 
   return (
     <div className="wrapper">
@@ -87,7 +98,7 @@ function Main() {
                   />
                 ))}
           </div>
-          <Pagination />
+          <Pagination onPageChange={handlePageChange} />
         </div>
       </div>
     </div>
