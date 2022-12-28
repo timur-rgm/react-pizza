@@ -4,7 +4,7 @@ type PaginationPropsType = {
   onPageChange: (page: number) => void;
 };
 
-function Pagination({onPageChange}: PaginationPropsType): JSX.Element {
+function Pagination({ onPageChange }: PaginationPropsType): JSX.Element {
   return (
     <ReactPaginate
       className="pagination"

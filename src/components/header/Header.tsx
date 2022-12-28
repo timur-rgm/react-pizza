@@ -2,12 +2,7 @@ import { Link } from 'react-router-dom';
 import Search from '../search/Search';
 import logo from '../../assets/img/pizza-logo.svg';
 
-type HeaderPropsType = {
-  searchValue: string;
-  onSearchChange: (value: string) => void;
-};
-
-function Header({ searchValue, onSearchChange }: HeaderPropsType): JSX.Element {
+function Header(): JSX.Element {
   return (
     <div className="header">
       <div className="container">
@@ -20,7 +15,7 @@ function Header({ searchValue, onSearchChange }: HeaderPropsType): JSX.Element {
             </div>
           </div>
         </Link>
-        <Search value={searchValue} onSearchChange={onSearchChange} />
+        <Search />
         <div className="header__cart">
           <Link to="/card" className="button button--cart">
             <span>520 ₽</span>

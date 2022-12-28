@@ -1,11 +1,9 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useContext } from 'react';
+import { SearchContext } from '../app/App';
 
-type SearchPropsType = {
-  value: string;
-  onSearchChange: (value: string) => void;
-};
+function Search(): JSX.Element {
+  const { searchInputValue, setSearchInputValue } = useContext(SearchContext);
 
-function Search({ value, onSearchChange }: SearchPropsType): JSX.Element {
   return (
     <div className="header__search search">
       <svg
@@ -24,15 +22,17 @@ function Search({ value, onSearchChange }: SearchPropsType): JSX.Element {
         />
       </svg>
       <input
-        value={value}
-        onChange={(evt: ChangeEvent<HTMLInputElement>) => onSearchChange(evt.target.value)}
+        value={searchInputValue}
+        onChange={(evt: ChangeEvent<HTMLInputElement>) =>
+          setSearchInputValue && setSearchInputValue(evt.target.value)
+        }
         className="search__input"
         type="text"
         placeholder="Поиск пиццы..."
       />
-      {value && (
+      {setSearchInputValue && (
         <svg
-          onClick={() => onSearchChange('')}
+          onClick={() => setSearchInputValue('')}
           className="search__clear-icon"
           height="48"
           viewBox="0 0 48 48"

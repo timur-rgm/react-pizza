@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { SearchContext } from '../components/app/App';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
 import Sort from '../components/sort/Sort';
@@ -10,19 +11,16 @@ import { PizzaListType } from '../types/pizza';
 import { SortType } from '../types/sort';
 
 function Main() {
+  const { searchInputValue, setSearchInputValue } = useContext(SearchContext);
+
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [searchInputValue, setSearchInputValue] = useState<string>('');
   const [orderType, setOrderType] = useState<string>('desc');
   const [currentCategoryId, setCurrentCategoryId] = useState<number>(0);
   const [selectedSortType, setSelectedSortType] = useState<SortType>(
     sorting[0]
   );
-
-  const handleSearchInputChange = (value: string) => {
-    setSearchInputValue(value);
-  };
 
   const handleOrderClick = (order: string) => {
     setOrderType(order);
@@ -64,10 +62,7 @@ function Main() {
 
   return (
     <div className="wrapper">
-      <Header
-        searchValue={searchInputValue}
-        onSearchChange={handleSearchInputChange}
-      />
+      <Header />
       <div className="content">
         <div className="container">
           <div className="content__top">
