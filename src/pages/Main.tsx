@@ -11,7 +11,7 @@ import { PizzaListType } from '../types/pizza';
 import { SortType } from '../types/sort';
 
 function Main() {
-  const { searchInputValue, setSearchInputValue } = useContext(SearchContext);
+  const { searchInputValue } = useContext(SearchContext);
 
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
