@@ -1,4 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../store/store';
 import { SearchContext } from '../components/app/App';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
@@ -11,23 +13,20 @@ import { PizzaListType } from '../types/pizza';
 import { SortType } from '../types/sort';
 
 function Main() {
+  const currentCategoryId = useSelector((state: RootState) => state.filter.categoryId);
+
   const { searchInputValue } = useContext(SearchContext);
 
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [orderType, setOrderType] = useState<string>('desc');
-  const [currentCategoryId, setCurrentCategoryId] = useState<number>(0);
   const [selectedSortType, setSelectedSortType] = useState<SortType>(
     sorting[0]
   );
 
   const handleOrderClick = (order: string) => {
     setOrderType(order);
-  };
-
-  const handleCategoryClick = (index: number) => {
-    setCurrentCategoryId(index);
   };
 
   const handleSortTypeSelect = (type: SortType) => {
@@ -66,10 +65,7 @@ function Main() {
       <div className="content">
         <div className="container">
           <div className="content__top">
-            <Categories
-              id={currentCategoryId}
-              onCategoryClick={handleCategoryClick}
-            />
+            <Categories />
             <Sort
               sortType={selectedSortType}
               onTypeChange={handleSortTypeSelect}

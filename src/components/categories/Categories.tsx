@@ -1,18 +1,21 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../../store/filter/filterSlice';
+import type { RootState } from '../../store/store';
 import { categories } from '../../const';
 
-type CategoriesPropsType = {
-  id: number;
-  onCategoryClick: (id: number) => void;
-};
+function Categories(): JSX.Element {
+  const currentCategoryId = useSelector(
+    (state: RootState) => state.filter.categoryId
+  );
+  const dispatch = useDispatch();
 
-function Categories({ id, onCategoryClick }: CategoriesPropsType): JSX.Element {
   return (
     <div className="categories">
       <ul>
         {categories.map((category, index) => (
           <li
-            onClick={() => onCategoryClick(index)}
-            className={id === index ? 'active' : ''}
+            onClick={() => dispatch(setCategoryId(index))}
+            className={currentCategoryId === index ? 'active' : ''}
             key={category + index}
           >
             {category}
