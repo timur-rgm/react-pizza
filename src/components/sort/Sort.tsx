@@ -1,18 +1,15 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { setSortType, setOrderType } from '../../store/filter/filterSlice';
 import { sorting } from '../../const';
-import { SortType } from '../../types/sort';
 
-type SortPropsType = {
-  sortType: SortType;
-  onTypeChange: (type: SortType) => void;
-  onOrderChange: (order: string) => void;
-};
+function Sort(): JSX.Element {
+  const currentSortType = useSelector(
+    (state: RootState) => state.filter.sortType
+  );
+  const dispatch = useDispatch();
 
-function Sort({
-  sortType,
-  onTypeChange,
-  onOrderChange,
-}: SortPropsType): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleSortListClick = () => {
@@ -23,7 +20,7 @@ function Sort({
     <div className="sort">
       <div className="sort__label">
         <svg
-          onClick={() => onOrderChange('asc')}
+          onClick={() => dispatch(setOrderType('asc'))}
           width="10"
           height="6"
           viewBox="0 0 10 6"
@@ -36,7 +33,7 @@ function Sort({
           />
         </svg>
         <svg
-          onClick={() => onOrderChange('desc')}
+          onClick={() => dispatch(setOrderType('desc'))}
           className="desc"
           width="10"
           height="6"
@@ -50,15 +47,15 @@ function Sort({
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={handleSortListClick}>{sortType.name}</span>
+        <span onClick={handleSortListClick}>{currentSortType.name}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
           <ul>
             {sorting.map((sort) => (
               <li
-                onClick={() => onTypeChange(sort)}
-                className={sort === sortType ? 'active' : ''}
+                onClick={() => dispatch(setSortType(sort))}
+                className={sort === currentSortType ? 'active' : ''}
                 key={sort.type}
               >
                 {sort.name}

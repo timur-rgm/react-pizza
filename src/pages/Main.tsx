@@ -8,30 +8,24 @@ import Sort from '../components/sort/Sort';
 import Pizza from '../components/pizza/Pizza';
 import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
-import { sorting } from '../const';
 import { PizzaListType } from '../types/pizza';
-import { SortType } from '../types/sort';
 
 function Main() {
-  const currentCategoryId = useSelector((state: RootState) => state.filter.categoryId);
+  const currentCategoryId = useSelector(
+    (state: RootState) => state.filter.categoryId
+  );
+  const currentSortType = useSelector(
+    (state: RootState) => state.filter.sortType
+  );
+  const currentOrderType = useSelector(
+    (state: RootState) => state.filter.orderType
+  );
 
   const { searchInputValue } = useContext(SearchContext);
 
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [orderType, setOrderType] = useState<string>('desc');
-  const [selectedSortType, setSelectedSortType] = useState<SortType>(
-    sorting[0]
-  );
-
-  const handleOrderClick = (order: string) => {
-    setOrderType(order);
-  };
-
-  const handleSortTypeSelect = (type: SortType) => {
-    setSelectedSortType(type);
-  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page + 1);
@@ -42,7 +36,7 @@ function Main() {
     fetch(
       `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
         currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
-      }&sortBy=${selectedSortType.type}&order=${orderType}${
+      }&sortBy=${currentSortType.type}&order=${currentOrderType}${
         searchInputValue ? `&search=${searchInputValue}` : ''
       }`
     )
@@ -53,8 +47,8 @@ function Main() {
       });
   }, [
     currentCategoryId,
-    selectedSortType,
-    orderType,
+    currentSortType,
+    currentOrderType,
     searchInputValue,
     currentPage,
   ]);
@@ -66,11 +60,7 @@ function Main() {
         <div className="container">
           <div className="content__top">
             <Categories />
-            <Sort
-              sortType={selectedSortType}
-              onTypeChange={handleSortTypeSelect}
-              onOrderChange={handleOrderClick}
-            />
+            <Sort />
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
