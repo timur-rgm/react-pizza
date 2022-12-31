@@ -10,6 +10,10 @@ import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
 import { PizzaListType } from '../types/pizza';
 
+import axios from 'axios';
+
+// const axios = require('axios').default;
+
 function Main() {
   const currentCategoryId = useSelector(
     (state: RootState) => state.filter.categoryId
@@ -33,16 +37,16 @@ function Main() {
 
   useEffect(() => {
     setIsPizzaLoading(true);
-    fetch(
-      `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
-        currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
-      }&sortBy=${currentSortType.type}&order=${currentOrderType}${
-        searchInputValue ? `&search=${searchInputValue}` : ''
-      }`
-    )
-      .then((response) => response.json())
-      .then((pizza) => {
-        setPizza(pizza);
+    axios
+      .get(
+        `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
+          currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
+        }&sortBy=${currentSortType.type}&order=${currentOrderType}${
+          searchInputValue ? `&search=${searchInputValue}` : ''
+        }`
+      )
+      .then((response: any) => {
+        setPizza(response.data);
         setIsPizzaLoading(false);
       });
   }, [
