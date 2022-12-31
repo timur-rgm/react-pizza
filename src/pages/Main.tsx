@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
+import axios, { AxiosResponse } from 'axios';
 import { SearchContext } from '../components/app/App';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
@@ -9,10 +10,6 @@ import Pizza from '../components/pizza/Pizza';
 import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
 import { PizzaListType } from '../types/pizza';
-
-import axios from 'axios';
-
-// const axios = require('axios').default;
 
 function Main() {
   const currentCategoryId = useSelector(
@@ -45,7 +42,7 @@ function Main() {
           searchInputValue ? `&search=${searchInputValue}` : ''
         }`
       )
-      .then((response: any) => {
+      .then((response: AxiosResponse) => {
         setPizza(response.data);
         setIsPizzaLoading(false);
       });

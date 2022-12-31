@@ -1,8 +1,16 @@
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent, useContext, useRef } from 'react';
 import { SearchContext } from '../app/App';
 
 function Search(): JSX.Element {
   const { searchInputValue, setSearchInputValue } = useContext(SearchContext);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleClearIconClick = () => {
+    if (setSearchInputValue) {
+      setSearchInputValue('');
+    }
+    inputRef.current?.focus();
+  };
 
   return (
     <div className="header__search search">
@@ -26,13 +34,14 @@ function Search(): JSX.Element {
         onChange={(evt: ChangeEvent<HTMLInputElement>) =>
           setSearchInputValue && setSearchInputValue(evt.target.value)
         }
+        ref={inputRef}
         className="search__input"
         type="text"
         placeholder="Поиск пиццы..."
       />
       {setSearchInputValue && (
         <svg
-          onClick={() => setSearchInputValue('')}
+          onClick={handleClearIconClick}
           className="search__clear-icon"
           height="48"
           viewBox="0 0 48 48"
