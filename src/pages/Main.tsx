@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store/store';
 import axios, { AxiosResponse } from 'axios';
-import { SearchContext } from '../components/app/App';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
 import Sort from '../components/sort/Sort';
@@ -24,22 +23,18 @@ function Main() {
   const currentSearchInputValue = useSelector(
     (state: RootState) => state.filter.searchValue
   );
-
-  // const { searchInputValue } = useContext(SearchContext);
+  const currentPageCount = useSelector(
+    (state: RootState) => state.filter.pageCount
+  );
 
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page + 1);
-  };
 
   useEffect(() => {
     setIsPizzaLoading(true);
     axios
       .get(
-        `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
+        `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPageCount}&limit=4&${
           currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
         }&sortBy=${currentSortType.type}&order=${currentOrderType}${
           currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
@@ -54,7 +49,7 @@ function Main() {
     currentSortType,
     currentOrderType,
     currentSearchInputValue,
-    currentPage,
+    currentPageCount,
   ]);
 
   return (
@@ -83,7 +78,7 @@ function Main() {
                   />
                 ))}
           </div>
-          <Pagination onPageChange={handlePageChange} />
+          <Pagination />
         </div>
       </div>
     </div>

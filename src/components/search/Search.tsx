@@ -4,8 +4,8 @@ import { setSearchValue } from '../../store/filter/filterSlice';
 import debounce from 'lodash.debounce';
 
 function Search(): JSX.Element {
-  const inputRef = useRef<HTMLInputElement | null>(null);
   const [inputValue, setInputValue] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
 
   const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {

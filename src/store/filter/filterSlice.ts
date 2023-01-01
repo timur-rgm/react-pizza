@@ -8,6 +8,7 @@ export interface FilterState {
   sortType: SortType;
   orderType: string;
   searchValue: string;
+  pageCount: number;
 }
 
 const initialState: FilterState = {
@@ -15,6 +16,7 @@ const initialState: FilterState = {
   sortType: sorting[0],
   orderType: 'desc',
   searchValue: '',
+  pageCount: 1,
 };
 
 export const filterSlice = createSlice({
@@ -33,10 +35,18 @@ export const filterSlice = createSlice({
     setSearchValue: (state, action: PayloadAction<string>) => {
       state.searchValue = action.payload;
     },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.pageCount = action.payload;
+    },
   },
 });
 
-export const { setCategoryId, setSortType, setOrderType, setSearchValue } =
-  filterSlice.actions;
+export const {
+  setCategoryId,
+  setSortType,
+  setOrderType,
+  setSearchValue,
+  setPage,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;
