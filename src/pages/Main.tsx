@@ -21,8 +21,11 @@ function Main() {
   const currentOrderType = useSelector(
     (state: RootState) => state.filter.orderType
   );
+  const currentSearchInputValue = useSelector(
+    (state: RootState) => state.filter.searchValue
+  );
 
-  const { searchInputValue } = useContext(SearchContext);
+  // const { searchInputValue } = useContext(SearchContext);
 
   const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
@@ -39,7 +42,7 @@ function Main() {
         `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
           currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
         }&sortBy=${currentSortType.type}&order=${currentOrderType}${
-          searchInputValue ? `&search=${searchInputValue}` : ''
+          currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
         }`
       )
       .then((response: AxiosResponse) => {
@@ -50,7 +53,7 @@ function Main() {
     currentCategoryId,
     currentSortType,
     currentOrderType,
-    searchInputValue,
+    currentSearchInputValue,
     currentPage,
   ]);
 

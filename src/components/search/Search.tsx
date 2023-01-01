@@ -1,14 +1,30 @@
-import { ChangeEvent, useContext, useRef } from 'react';
-import { SearchContext } from '../app/App';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setSearchValue } from '../../store/filter/filterSlice';
+import debounce from 'lodash.debounce';
 
 function Search(): JSX.Element {
-  const { searchInputValue, setSearchInputValue } = useContext(SearchContext);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [inputValue, setInputValue] = useState<string>('');
+  const dispatch = useDispatch();
+
+  const handleInputChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(evt.target.value);
+    handleInputUpdate(evt.target.value);
+  };
+
+  const handleInputUpdate = useCallback(
+    debounce(
+      (value: string) => {
+        dispatch(setSearchValue(value));
+      },
+      500),
+    [],
+  );
 
   const handleClearIconClick = () => {
-    if (setSearchInputValue) {
-      setSearchInputValue('');
-    }
+    dispatch(setSearchValue(''));
+    setInputValue('');
     inputRef.current?.focus();
   };
 
@@ -30,16 +46,13 @@ function Search(): JSX.Element {
         />
       </svg>
       <input
-        value={searchInputValue}
-        onChange={(evt: ChangeEvent<HTMLInputElement>) =>
-          setSearchInputValue && setSearchInputValue(evt.target.value)
-        }
-        ref={inputRef}
+        value={inputValue}
+        onChange={handleInputChange}
         className="search__input"
         type="text"
         placeholder="Поиск пиццы..."
       />
-      {setSearchInputValue && (
+      {inputValue && (
         <svg
           onClick={handleClearIconClick}
           className="search__clear-icon"

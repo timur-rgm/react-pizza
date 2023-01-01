@@ -7,12 +7,14 @@ export interface FilterState {
   categoryId: number;
   sortType: SortType;
   orderType: string;
+  searchValue: string;
 }
 
 const initialState: FilterState = {
   categoryId: 0,
   sortType: sorting[0],
   orderType: 'desc',
+  searchValue: '',
 };
 
 export const filterSlice = createSlice({
@@ -28,9 +30,13 @@ export const filterSlice = createSlice({
     setOrderType: (state, action: PayloadAction<string>) => {
       state.orderType = action.payload;
     },
+    setSearchValue: (state, action: PayloadAction<string>) => {
+      state.searchValue = action.payload;
+    },
   },
 });
 
-export const { setCategoryId, setSortType, setOrderType } = filterSlice.actions;
+export const { setCategoryId, setSortType, setOrderType, setSearchValue } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;
