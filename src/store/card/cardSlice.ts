@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface CardState {
-  items: [];
+  items: string[];
   totalPrice: number;
 }
 
@@ -11,14 +11,22 @@ const initialState: CardState = {
   totalPrice: 0,
 };
 
-export const counterSlice = createSlice({
+export const cardSlice = createSlice({
   name: 'card',
   initialState,
   reducers: {
-
+    addItems: (state, action: PayloadAction<string>) => {
+      state.items.push(action.payload);
+    },
+    removeItem: (state, action: PayloadAction<string>) => {
+      state.items.filter((item) => item.id !== action.payload);
+    },
+    clearItems: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const {} = counterSlice.actions;
+export const { addItems, removeItem, clearItems } = cardSlice.actions;
 
-export default counterSlice.reducer;
+export default cardSlice.reducer;
