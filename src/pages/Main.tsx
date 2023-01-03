@@ -1,16 +1,28 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../store/store';
+import { setFilters } from '../store/filter/filterSlice';
 import axios, { AxiosResponse } from 'axios';
+import qs from 'qs';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
 import Sort from '../components/sort/Sort';
 import Pizza from '../components/pizza/Pizza';
 import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
+import { sorting } from '../const';
 import { PizzaListType } from '../types/pizza';
 
 function Main() {
+  const navigate = useNavigate();
+
+  const [pizza, setPizza] = useState<PizzaListType>([]);
+  const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
+
+  const isSearch = useRef<boolean>(false);
+  const isMounted = useRef<boolean>(false);
+
   const currentCategoryId = useSelector(
     (state: RootState) => state.filter.categoryId
   );
@@ -23,33 +35,76 @@ function Main() {
   const currentSearchInputValue = useSelector(
     (state: RootState) => state.filter.searchValue
   );
-  const currentPageCount = useSelector(
-    (state: RootState) => state.filter.pageCount
-  );
+  const currentPage = useSelector((state: RootState) => state.filter.pageCount);
 
-  const [pizza, setPizza] = useState<PizzaListType>([]);
-  const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsPizzaLoading(true);
-    axios
-      .get(
-        `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPageCount}&limit=4&${
-          currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
-        }&sortBy=${currentSortType.type}&order=${currentOrderType}${
-          currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
-        }`
-      )
-      .then((response: AxiosResponse) => {
-        setPizza(response.data);
-        setIsPizzaLoading(false);
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        categoryId: currentCategoryId,
+        pageCount: currentPage,
+        orderType: currentOrderType,
+        sortType: currentSortType.type,
       });
+
+      navigate(`?${queryString}`);
+    }
+
+    isMounted.current = true;
   }, [
     currentCategoryId,
     currentSortType,
     currentOrderType,
     currentSearchInputValue,
-    currentPageCount,
+    currentPage,
+  ]);
+
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = sorting.filter((item) => item.type === params.sortType);
+
+      dispatch(
+        setFilters({
+          categoryId: Number(params.categoryId),
+          pageCount: Number(params.pageCount),
+          orderType: String(params.orderType),
+          sortType: {
+            name: sort[0].name,
+            type: sort[0].type,
+          },
+        })
+      );
+
+      isSearch.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isSearch.current) {
+      setIsPizzaLoading(true);
+      axios
+        .get(
+          `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
+            currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
+          }&sortBy=${currentSortType.type}&order=${currentOrderType}${
+            currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
+          }`
+        )
+        .then((response: AxiosResponse) => {
+          setPizza(response.data);
+          setIsPizzaLoading(false);
+        });
+    }
+
+    isSearch.current = false;
+  }, [
+    currentCategoryId,
+    currentSortType,
+    currentOrderType,
+    currentSearchInputValue,
+    currentPage,
   ]);
 
   return (
