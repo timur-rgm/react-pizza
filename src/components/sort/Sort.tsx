@@ -1,23 +1,47 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setSortType, setOrderType } from '../../store/filter/filterSlice';
 import { sorting } from '../../const';
+import { SortType } from '../../types/sort';
 
 function Sort(): JSX.Element {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const sortRef = useRef<HTMLDivElement | null>(null);
+
   const currentSortType = useSelector(
     (state: RootState) => state.filter.sortType
   );
-  const dispatch = useDispatch();
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   const handleSortListClick = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
+  const handleSortItemClick = (sort: SortType) => {
+    dispatch(setSortType(sort));
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+
+  useEffect(() => {
+    const bodyClickHandler = (evt: MouseEvent) => {
+      if (!evt.composedPath().includes(sortRef.current as Node)) {
+        setIsOpen(false);
+        console.log('Клик');
+      }
+    };
+
+    document.body.addEventListener('click', bodyClickHandler);
+
+    return () => {
+      document.body.removeEventListener('click', bodyClickHandler);
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           onClick={() => dispatch(setOrderType('asc'))}
@@ -54,7 +78,7 @@ function Sort(): JSX.Element {
           <ul>
             {sorting.map((sort) => (
               <li
-                onClick={() => dispatch(setSortType(sort))}
+                onClick={() => handleSortItemClick(sort)}
                 className={sort === currentSortType ? 'active' : ''}
                 key={sort.type}
               >
