@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux'
+import { addItems } from '../../store/card/cardSlice';
 import { pizzaTypes } from '../../const';
 
 type PizzaPropsType = {
+  id: number;
   title: string;
   price: number;
   image: string;
@@ -10,6 +13,7 @@ type PizzaPropsType = {
 };
 
 function Pizza({
+  id,
   title,
   price,
   image,
@@ -19,6 +23,8 @@ function Pizza({
   const [typeActive, setTypeActive] = useState(0);
   const [sizeActive, setSizeActive] = useState(0);
 
+  const dispatch = useDispatch();
+
   const handleTypeClick = (id: number) => {
     setTypeActive(id);
   };
@@ -26,6 +32,19 @@ function Pizza({
   const handleSizeClick = (index: number) => {
     setSizeActive(index);
   };
+
+  const handleAddButtonClick = () => {
+    const item = {
+      id,
+      title,
+      image,
+      type: typeActive,
+      size: sizeActive,
+      price,
+    };
+
+    dispatch(addItems(item));
+  }
 
   return (
     <div className="pizza-block">
@@ -57,7 +76,7 @@ function Pizza({
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <button onClick={handleAddButtonClick} className="button button--outline button--add">
           <svg
             width="12"
             height="12"
@@ -72,7 +91,7 @@ function Pizza({
           </svg>
           <span>Добавить</span>
           <i>2</i>
-        </div>
+        </button>
       </div>
     </div>
   );

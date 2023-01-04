@@ -124,6 +124,7 @@ function Main() {
                 ))
               : pizza.map((item) => (
                   <Pizza
+                    id={item.id}
                     title={item.title}
                     price={item.price}
                     image={item.imageUrl}

@@ -10,3 +10,12 @@ export type PizzaItemType = {
 };
 
 export type PizzaListType = PizzaItemType[];
+
+export type PizzaInCard = {
+  id: number;
+  image: string;
+  title: string;
+  type: number;
+  size: number;
+  price: number;
+}
