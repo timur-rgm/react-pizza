@@ -18,4 +18,5 @@ export type PizzaInCard = {
   type: number;
   size: number;
   price: number;
+  count: number;
 }

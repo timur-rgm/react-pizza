@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { PizzaItemType, PizzaInCard } from '../../types/pizza';
+import { PizzaInCard } from '../../types/pizza';
 
 export interface CardState {
   items: PizzaInCard[];
@@ -17,12 +17,29 @@ export const cardSlice = createSlice({
   initialState,
   reducers: {
     addItems: (state, action: PayloadAction<PizzaInCard>) => {
-      state.items.push(action.payload);
-      state.totalPrice = state.items.reduce((sum, item) => sum + item.price, 0);
+      const foundItem = state.items.find(
+        (item) =>
+          item.id === action.payload.id &&
+          item.type === action.payload.type &&
+          item.size === action.payload.size
+      );
+
+      if (foundItem) {
+        foundItem.count++;
+      } else {
+        state.items.push(action.payload);
+      }
+
+      state.totalPrice = state.items.reduce(
+        (sum, item) => sum + item.price * item.count,
+        0
+      );
     },
+
     removeItem: (state, action: PayloadAction<PizzaInCard>) => {
       state.items.filter((item) => item.id !== action.payload.id);
     },
+
     clearItems: (state) => {
       state.items = [];
     },

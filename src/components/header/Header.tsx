@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { getTotalPrice, getAddedItemsCount } from '../../store/card/selectors';
 import Search from '../search/Search';
 import logo from '../../assets/img/pizza-logo.svg';
 
 function Header(): JSX.Element {
-  const totalPrice = useSelector((state: RootState) => state.card.totalPrice);
-  const items = useSelector((state: RootState) => state.card.items);
+  const totalPrice = useSelector(getTotalPrice);
+  const addedItemsCount = useSelector(getAddedItemsCount);
 
   return (
     <div className="header">
@@ -54,7 +54,7 @@ function Header(): JSX.Element {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{items.length}</span>
+            <span>{addedItemsCount}</span>
           </Link>
         </div>
       </div>

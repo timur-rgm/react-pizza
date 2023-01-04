@@ -29,7 +29,6 @@ function Sort(): JSX.Element {
     const bodyClickHandler = (evt: MouseEvent) => {
       if (!evt.composedPath().includes(sortRef.current as Node)) {
         setIsOpen(false);
-        console.log('Клик');
       }
     };
 
