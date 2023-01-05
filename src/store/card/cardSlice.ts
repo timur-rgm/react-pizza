@@ -16,7 +16,7 @@ export const cardSlice = createSlice({
   name: 'card',
   initialState,
   reducers: {
-    addItems: (state, action: PayloadAction<PizzaInCard>) => {
+    addItem: (state, action: PayloadAction<PizzaInCard>) => {
       const foundItem = state.items.find(
         (item) =>
           item.id === action.payload.id &&
@@ -36,16 +36,40 @@ export const cardSlice = createSlice({
       );
     },
 
+    subItemsCount: (state, action: PayloadAction<PizzaInCard>) => {
+      const foundItem = state.items.find(
+        (item) =>
+          item.id === action.payload.id &&
+          item.type === action.payload.type &&
+          item.size === action.payload.size
+      );
+
+      if (foundItem) {
+        foundItem.count--;
+        state.totalPrice = state.totalPrice - foundItem.price;
+      }
+    },
+
     removeItem: (state, action: PayloadAction<PizzaInCard>) => {
-      state.items.filter((item) => item.id !== action.payload.id);
+      state.items = state.items.filter(
+        (item) =>
+          item.id !== action.payload.id ||
+          item.size !== action.payload.size ||
+          item.type !== action.payload.type
+      );
+
+      state.totalPrice =
+        state.totalPrice - action.payload.price * action.payload.count;
     },
 
     clearItems: (state) => {
       state.items = [];
+      state.totalPrice = 0;
     },
   },
 });
 
-export const { addItems, removeItem, clearItems } = cardSlice.actions;
+export const { addItem, subItemsCount, removeItem, clearItems } =
+  cardSlice.actions;
 
 export default cardSlice.reducer;

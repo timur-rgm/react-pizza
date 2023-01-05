@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { getTotalPrice, getAddedItemsCount } from '../../store/card/selectors';
+import { getTotalPrice, getTotalAddedItemsCount } from '../../store/card/selectors';
 import Search from '../search/Search';
 import logo from '../../assets/img/pizza-logo.svg';
 
 function Header(): JSX.Element {
   const totalPrice = useSelector(getTotalPrice);
-  const addedItemsCount = useSelector(getAddedItemsCount);
+  const addedItemsCount = useSelector(getTotalAddedItemsCount);
 
   return (
     <div className="header">

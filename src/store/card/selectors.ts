@@ -3,13 +3,13 @@ import { PizzaInCard } from '../../types/pizza';
 
 // Перейти на reselect там, где это необходимо
 
-export const getTotalPrice = (state: RootState): number =>
-  state.card.totalPrice;
-
 export const getItems = (state: RootState): PizzaInCard[] | undefined =>
   state.card.items;
 
-export const getAddedItemsCount = (state: RootState): number =>
+export const getTotalPrice = (state: RootState): number =>
+  state.card.totalPrice;
+
+export const getTotalAddedItemsCount = (state: RootState): number =>
   state.card.items.reduce((sum, item) => sum + item.count, 0);
 
 export const getAddedItemsCountById =

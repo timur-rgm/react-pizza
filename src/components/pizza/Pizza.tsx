@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItems } from '../../store/card/cardSlice';
+import { addItem } from '../../store/card/cardSlice';
 import { getAddedItemsCountById } from '../../store/card/selectors';
 import { pizzaTypes } from '../../const';
 
@@ -47,7 +47,7 @@ function Pizza({
       count: 1,
     };
 
-    dispatch(addItems(item));
+    dispatch(addItem(item));
   };
 
   return (
