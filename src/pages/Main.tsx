@@ -42,16 +42,20 @@ function Main() {
   const getPizza = async () => {
     setIsPizzaLoading(true);
 
-    const pizza = await axios.get(
-      `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
-        currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
-      }&sortBy=${currentSortType.type}&order=${currentOrderType}${
-        currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
-      }`
-    );
+    try {
+      const pizza = await axios.get(
+        `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
+          currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
+        }&sortBy=${currentSortType.type}&order=${currentOrderType}${
+          currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
+        }`
+      );
 
-    setPizza(pizza.data);
-    setIsPizzaLoading(false);
+      setPizza(pizza.data);
+      setIsPizzaLoading(false);
+    } catch (error) {
+      setIsPizzaLoading(false);
+    }
   };
 
   useEffect(() => {
