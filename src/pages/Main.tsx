@@ -39,6 +39,21 @@ function Main() {
 
   const dispatch = useDispatch();
 
+  const getPizza = async () => {
+    setIsPizzaLoading(true);
+
+    const pizza = await axios.get(
+      `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
+        currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
+      }&sortBy=${currentSortType.type}&order=${currentOrderType}${
+        currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
+      }`
+    );
+
+    setPizza(pizza.data);
+    setIsPizzaLoading(false);
+  };
+
   useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
@@ -83,19 +98,7 @@ function Main() {
 
   useEffect(() => {
     if (!isSearch.current) {
-      setIsPizzaLoading(true);
-      axios
-        .get(
-          `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
-            currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
-          }&sortBy=${currentSortType.type}&order=${currentOrderType}${
-            currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
-          }`
-        )
-        .then((response: AxiosResponse) => {
-          setPizza(response.data);
-          setIsPizzaLoading(false);
-        });
+      getPizza();
     }
 
     isSearch.current = false;
