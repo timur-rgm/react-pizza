@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../store/store';
 import { setFilters } from '../store/filter/filterSlice';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import qs from 'qs';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
@@ -12,16 +12,19 @@ import Pizza from '../components/pizza/Pizza';
 import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
 import { sorting } from '../const';
-import { PizzaListType } from '../types/pizza';
+
+import { setItems } from '../store/pizza/pizzaSlice';
+import { getItems } from '../store/pizza/selectors';
 
 function Main() {
   const navigate = useNavigate();
 
-  const [pizza, setPizza] = useState<PizzaListType>([]);
   const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
 
   const isSearch = useRef<boolean>(false);
   const isMounted = useRef<boolean>(false);
+
+  const pizza = useSelector(getItems);
 
   const currentCategoryId = useSelector(
     (state: RootState) => state.filter.categoryId
@@ -43,7 +46,7 @@ function Main() {
     setIsPizzaLoading(true);
 
     try {
-      const pizza = await axios.get(
+      const {data} = await axios.get(
         `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
           currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
         }&sortBy=${currentSortType.type}&order=${currentOrderType}${
@@ -51,7 +54,7 @@ function Main() {
         }`
       );
 
-      setPizza(pizza.data);
+      dispatch(setItems(data));
       setIsPizzaLoading(false);
     } catch (error) {
       setIsPizzaLoading(false);
@@ -129,7 +132,7 @@ function Main() {
               ? [...new Array(8)].map((_item, index) => (
                   <Skeleton key={index} />
                 ))
-              : pizza.map((item) => (
+              : pizza?.map((item) => (
                   <Pizza
                     id={item.id}
                     title={item.title}
