@@ -6,14 +6,14 @@ import { LoadingStatuses } from '../../types/pizza';
 
 export const fetchPizza = createAsyncThunk<PizzaListType, SearchPizzaParams>(
   'pizza/fetchPizza',
-  async (params) => {
+  async (arg) => {
     const {
       currentPage,
       currentCategoryId,
       currentSortType,
       currentSearchInputValue,
       currentOrderType,
-    } = params;
+    } = arg;
 
     const { data } = await axios.get(
       `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${

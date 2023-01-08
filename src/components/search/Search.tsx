@@ -48,6 +48,7 @@ function Search(): JSX.Element {
       <input
         value={inputValue}
         onChange={handleInputChange}
+        ref={inputRef}
         className="search__input"
         type="text"
         placeholder="Поиск пиццы..."

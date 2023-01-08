@@ -10,7 +10,7 @@ export const getCurrentSortType = (state: RootState): SortType =>
 export const getCurrentOrderType = (state: RootState): string =>
   state.filter.orderType;
   
-export const getCurrentSearchInputValue = (state: RootState): string =>
+export const getSearchInputValue = (state: RootState): string =>
   state.filter.searchValue;
   
 export const getCurrentPage = (state: RootState): number =>

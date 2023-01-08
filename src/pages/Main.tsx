@@ -9,7 +9,7 @@ import {
   getCurrentCategoryId,
   getCurrentOrderType,
   getCurrentPage,
-  getCurrentSearchInputValue,
+  getSearchInputValue,
   getCurrentSortType,
 } from '../store/filter/selectors';
 import qs from 'qs';
@@ -33,8 +33,8 @@ function Main() {
   const currentCategoryId = useSelector(getCurrentCategoryId);
   const currentSortType = useSelector(getCurrentSortType);
   const currentOrderType = useSelector(getCurrentOrderType);
-  const currentSearchInputValue = useSelector(getCurrentSearchInputValue);
   const currentPage = useSelector(getCurrentPage);
+  const searchInputValue = useSelector(getSearchInputValue);
 
   const dispatch = useAppDispatch();
 
@@ -44,7 +44,7 @@ function Main() {
         currentPage,
         currentCategoryId,
         currentSortType,
-        currentSearchInputValue,
+        currentSearchInputValue: searchInputValue,
         currentOrderType,
       })
     );
@@ -67,7 +67,7 @@ function Main() {
     currentCategoryId,
     currentSortType,
     currentOrderType,
-    currentSearchInputValue,
+    searchInputValue,
     currentPage,
   ]);
 
@@ -102,7 +102,7 @@ function Main() {
     currentCategoryId,
     currentSortType,
     currentOrderType,
-    currentSearchInputValue,
+    searchInputValue,
     currentPage,
   ]);
 
