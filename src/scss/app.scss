@@ -48,6 +48,22 @@ body {
       }
     }
   }
+
+  &__error {
+    width: 500px;
+    margin: 100px auto;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
 }
 
 .container {

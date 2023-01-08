@@ -1,9 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '../store/store';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store/store';
 import { setFilters } from '../store/filter/filterSlice';
-import axios from 'axios';
+import { fetchPizza } from '../store/pizza/pizzaSlice';
+import { getItems, getLoadingStatus } from '../store/pizza/selectors';
+import {
+  getCurrentCategoryId,
+  getCurrentOrderType,
+  getCurrentPage,
+  getCurrentSearchInputValue,
+  getCurrentSortType,
+} from '../store/filter/selectors';
 import qs from 'qs';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
@@ -12,53 +20,34 @@ import Pizza from '../components/pizza/Pizza';
 import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
 import { sorting } from '../const';
-
-import { setItems } from '../store/pizza/pizzaSlice';
-import { getItems } from '../store/pizza/selectors';
+import { LoadingStatuses } from '../types/pizza';
 
 function Main() {
   const navigate = useNavigate();
-
-  const [isPizzaLoading, setIsPizzaLoading] = useState<boolean>(true);
 
   const isSearch = useRef<boolean>(false);
   const isMounted = useRef<boolean>(false);
 
   const pizza = useSelector(getItems);
+  const loadingStatus = useSelector(getLoadingStatus);
+  const currentCategoryId = useSelector(getCurrentCategoryId);
+  const currentSortType = useSelector(getCurrentSortType);
+  const currentOrderType = useSelector(getCurrentOrderType);
+  const currentSearchInputValue = useSelector(getCurrentSearchInputValue);
+  const currentPage = useSelector(getCurrentPage);
 
-  const currentCategoryId = useSelector(
-    (state: RootState) => state.filter.categoryId
-  );
-  const currentSortType = useSelector(
-    (state: RootState) => state.filter.sortType
-  );
-  const currentOrderType = useSelector(
-    (state: RootState) => state.filter.orderType
-  );
-  const currentSearchInputValue = useSelector(
-    (state: RootState) => state.filter.searchValue
-  );
-  const currentPage = useSelector((state: RootState) => state.filter.pageCount);
-
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const getPizza = async () => {
-    setIsPizzaLoading(true);
-
-    try {
-      const {data} = await axios.get(
-        `https://6353e24dccce2f8c02fe8dcd.mockapi.io/pizza?page=${currentPage}&limit=4&${
-          currentCategoryId > 0 ? `category=${currentCategoryId}` : ''
-        }&sortBy=${currentSortType.type}&order=${currentOrderType}${
-          currentSearchInputValue ? `&search=${currentSearchInputValue}` : ''
-        }`
-      );
-
-      dispatch(setItems(data));
-      setIsPizzaLoading(false);
-    } catch (error) {
-      setIsPizzaLoading(false);
-    }
+    dispatch(
+      fetchPizza({
+        currentPage,
+        currentCategoryId,
+        currentSortType,
+        currentSearchInputValue,
+        currentOrderType,
+      })
+    );
   };
 
   useEffect(() => {
@@ -127,23 +116,30 @@ function Main() {
             <Sort />
           </div>
           <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            {isPizzaLoading
-              ? [...new Array(8)].map((_item, index) => (
-                  <Skeleton key={index} />
-                ))
-              : pizza?.map((item) => (
-                  <Pizza
-                    id={item.id}
-                    title={item.title}
-                    price={item.price}
-                    image={item.imageUrl}
-                    sizes={item.sizes}
-                    types={item.types}
-                    key={item.id}
-                  />
-                ))}
-          </div>
+          {loadingStatus === LoadingStatuses.Error ? (
+            <div className='content__error'>
+              <h2>Ошибка</h2>
+              <p>К сожалению, не удалось получить пиццы...</p>
+            </div>
+          ) : (
+            <div className="content__items">
+              {loadingStatus === LoadingStatuses.Loading
+                ? [...new Array(8)].map((_item, index) => (
+                    <Skeleton key={index} />
+                  ))
+                : pizza?.map((item) => (
+                    <Pizza
+                      id={item.id}
+                      title={item.title}
+                      price={item.price}
+                      image={item.imageUrl}
+                      sizes={item.sizes}
+                      types={item.types}
+                      key={item.id}
+                    />
+                  ))}
+            </div>
+          )}
           <Pagination />
         </div>
       </div>

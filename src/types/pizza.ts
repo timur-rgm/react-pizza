@@ -1,3 +1,5 @@
+import { SortType } from './sort';
+
 export type PizzaItemType = {
   id: number;
   imageUrl: string;
@@ -19,4 +21,18 @@ export type PizzaInCard = {
   size: number;
   price: number;
   count: number;
+};
+
+export type SearchPizzaParams = {
+  currentPage: number;
+  currentCategoryId: number;
+  currentSortType: SortType;
+  currentSearchInputValue: string;
+  currentOrderType: string;
+};
+
+export enum LoadingStatuses {
+  Loading = 'loading',
+  Success = 'completed',
+  Error = 'error',
 }
