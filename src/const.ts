@@ -31,4 +31,5 @@ export const pizzaSizes: number[] = [26, 30, 40];
 export enum AppRoute {
   Root = '/',
   Card = '/card',
+  Pizza = '/pizza',
 }

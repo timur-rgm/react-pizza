@@ -11,7 +11,7 @@ function App(): JSX.Element {
     <Routes>
       <Route path={AppRoute.Root} element={<Main />} />
       <Route path={AppRoute.Card} element={<Card />} />
-      <Route path={`${AppRoute.Card}/:id`} element={<Pizza />} />
+      <Route path={`${AppRoute.Pizza}/:id`} element={<Pizza />} />
       <Route path="*" element={<Error />} />
     </Routes>
   );

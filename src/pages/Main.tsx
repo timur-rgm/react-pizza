@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
 import { setFilters } from '../store/filter/filterSlice';
@@ -16,7 +16,7 @@ import qs from 'qs';
 import Header from '../components/header/Header';
 import Categories from '../components/categories/Categories';
 import Sort from '../components/sort/Sort';
-import Pizza from '../components/pizza/Pizza';
+import Pizza from '../components/pizza-item/PizzaItem';
 import Pagination from '../components/pagination/Pagination';
 import Skeleton from '../components/skeleton/Skeleton';
 import { sorting } from '../const';
@@ -117,7 +117,7 @@ function Main() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           {loadingStatus === LoadingStatuses.Error ? (
-            <div className='content__error'>
+            <div className="content__error">
               <h2>Ошибка</h2>
               <p>К сожалению, не удалось получить пиццы...</p>
             </div>

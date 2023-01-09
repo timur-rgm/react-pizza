@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem } from '../../store/card/cardSlice';
 import { getAddedItemsCountById } from '../../store/card/selectors';
-import { pizzaTypes } from '../../const';
+import { AppRoute, pizzaTypes } from '../../const';
+import { Link } from 'react-router-dom';
 
 type PizzaPropsType = {
   id: number;
@@ -52,8 +53,10 @@ function Pizza({
 
   return (
     <div className="pizza-block">
+      <Link to={`${AppRoute.Pizza}/${id}`}>
       <img className="pizza-block__image" src={image} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
+      </Link>
       <div className="pizza-block__selector">
         <ul>
           {types.map((type, index) => (
