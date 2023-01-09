@@ -9,10 +9,10 @@ import { AppRoute } from '../../const';
 import logo from '../../assets/img/pizza-logo.svg';
 
 function Header(): JSX.Element {
+  const location = useLocation();
+
   const totalPrice = useSelector(getTotalPrice);
   const addedItemsCount = useSelector(getTotalAddedItemsCount);
-
-  const location = useLocation();
 
   return (
     <div className="header">
