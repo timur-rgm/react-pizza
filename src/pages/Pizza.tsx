@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { AppRoute } from '../const';
 import { PizzaItemType } from '../types/pizza';
 
 function Pizza() {
-  const { id } = useParams();
   const [pizza, setPizza] = useState<PizzaItemType>();
+  
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchPizzaById() {
@@ -15,7 +18,9 @@ function Pizza() {
         );
 
         setPizza(data);
-      } catch (error) {}
+      } catch (error) {
+        navigate(`${AppRoute.Root}`);
+      }
     }
 
     fetchPizzaById();
