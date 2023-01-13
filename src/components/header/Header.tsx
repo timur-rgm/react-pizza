@@ -4,9 +4,9 @@ import {
   getTotalPrice,
   getTotalAddedItemsCount,
 } from '../../store/card/selectors';
+import Logo from '../logo/Logo';
 import Search from '../search/Search';
 import { AppRoute } from '../../const';
-import logo from '../../assets/img/pizza-logo.svg';
 
 function Header(): JSX.Element {
   const location = useLocation();
@@ -17,15 +17,7 @@ function Header(): JSX.Element {
   return (
     <div className="header">
       <div className="container">
-        <Link to={AppRoute.Root}>
-          <div className="header__logo">
-            <img width="38" src={logo} alt="Pizza logo" />
-            <div>
-              <h1>React Pizza</h1>
-              <p>самая вкусная пицца во вселенной</p>
-            </div>
-          </div>
-        </Link>
+        <Logo />
         {location.pathname !== AppRoute.Card && <Search />}
         <div className="header__cart">
           {location.pathname !== AppRoute.Card && (
