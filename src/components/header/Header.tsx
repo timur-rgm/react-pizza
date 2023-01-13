@@ -26,7 +26,7 @@ function Header(): JSX.Element {
             </div>
           </div>
         </Link>
-        <Search />
+        {location.pathname !== AppRoute.Card && <Search />}
         <div className="header__cart">
           {location.pathname !== AppRoute.Card && (
             <Link to={AppRoute.Card} className="button button--cart">
