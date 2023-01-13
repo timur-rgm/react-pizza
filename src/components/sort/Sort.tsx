@@ -1,29 +1,25 @@
-import { useState, useRef, useEffect } from 'react';
+import React from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 import { setSortType, setOrderType } from '../../store/filter/filterSlice';
+import { getCurrentSortType } from '../../store/filter/selectors';
 import { sorting } from '../../const';
 import { SortType } from '../../types/sort';
 
 function Sort(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
   const sortRef = useRef<HTMLDivElement | null>(null);
-
-  const currentSortType = useSelector(
-    (state: RootState) => state.filter.sortType
-  );
-
+  const currentSortType = useSelector(getCurrentSortType);
   const dispatch = useDispatch();
 
-  const handleSortListClick = () => {
+  const handleSortListClick = useCallback(() => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
+  }, []);
 
-  const handleSortItemClick = (sort: SortType) => {
+  const handleSortItemClick = useCallback((sort: SortType) => {
     dispatch(setSortType(sort));
     setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
+  }, []);
 
   useEffect(() => {
     const bodyClickHandler = (evt: MouseEvent) => {
@@ -91,4 +87,4 @@ function Sort(): JSX.Element {
   );
 }
 
-export default Sort;
+export default React.memo(Sort);
