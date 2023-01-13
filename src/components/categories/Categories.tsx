@@ -1,12 +1,11 @@
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId } from '../../store/filter/filterSlice';
-import type { RootState } from '../../store/store';
+import { getCurrentCategoryId } from '../../store/filter/selectors';
 import { categories } from '../../const';
 
-function Categories(): JSX.Element {
-  const currentCategoryId = useSelector(
-    (state: RootState) => state.filter.categoryId
-  );
+function Categories (): JSX.Element {
+  const currentCategoryId = useSelector(getCurrentCategoryId);
   const dispatch = useDispatch();
 
   return (
@@ -26,4 +25,4 @@ function Categories(): JSX.Element {
   );
 }
 
-export default Categories;
+export default React.memo(Categories);
