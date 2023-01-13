@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
@@ -40,11 +40,11 @@ function Main() {
   const getPizza = async () => {
     dispatch(
       fetchPizza({
-        currentPage,
-        currentCategoryId,
-        currentSortType,
-        currentSearchInputValue: searchInputValue,
-        currentOrderType,
+        pageCount: currentPage,
+        categoryId: currentCategoryId,
+        sortType: currentSortType,
+        searchValue: searchInputValue,
+        orderType: currentOrderType,
       })
     );
   };
@@ -84,6 +84,7 @@ function Main() {
             name: sort[0].name,
             type: sort[0].type,
           },
+          searchValue: '',
         })
       );
 

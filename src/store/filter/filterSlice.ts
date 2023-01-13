@@ -10,12 +10,6 @@ export interface FilterState {
   searchValue: string;
   pageCount: number;
 }
-export interface MyType {
-  categoryId: number;
-  pageCount: number;
-  orderType: string;
-  sortType: SortType;
-}
 
 const initialState: FilterState = {
   categoryId: 0,
@@ -44,11 +38,12 @@ export const filterSlice = createSlice({
     setPage: (state, action: PayloadAction<number>) => {
       state.pageCount = action.payload;
     },
-    setFilters: (state, action: PayloadAction<MyType>) => {
+    setFilters: (state, action: PayloadAction<FilterState>) => {
       state.categoryId = action.payload.categoryId;
       state.pageCount = action.payload.pageCount;
       state.orderType = action.payload.orderType;
       state.sortType = action.payload.sortType;
+      state.searchValue = action.payload.searchValue;
     },
   },
 });
