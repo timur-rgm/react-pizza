@@ -48,15 +48,6 @@ export const cardSlice = createSlice({
         foundItem.count--;
         state.totalPrice = state.totalPrice - foundItem.price;
       }
-
-      if (!foundItem?.count) {
-        state.items = state.items.filter(
-          (item) =>
-            item.id !== foundItem?.id ||
-            item.size !== foundItem.size ||
-            item.type !== foundItem.type
-        );
-      }
     },
 
     removeItem: (state, action: PayloadAction<PizzaInCard>) => {

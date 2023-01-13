@@ -25,8 +25,9 @@ function CardItem({ item }: CardItemPropsType) {
         </p>
       </div>
       <div className="cart__item-count">
-        <div
+        <button
           onClick={() => dispatch(subItemsCount(item))}
+          disabled={count < 2}
           className="button button--outline button--circle cart__item-count-minus"
         >
           <svg
@@ -45,9 +46,9 @@ function CardItem({ item }: CardItemPropsType) {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div
+        <button
           onClick={() => dispatch(addItem(item))}
           className="button button--outline button--circle cart__item-count-plus"
         >
@@ -67,7 +68,7 @@ function CardItem({ item }: CardItemPropsType) {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price * count}₽</b>
