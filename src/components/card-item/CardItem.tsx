@@ -13,7 +13,6 @@ function CardItem({ item }: CardItemPropsType) {
   const dispatch = useDispatch();
 
   return (
-    
     <div className="cart__item">
       <div className="cart__item-img">
         <img className="pizza-block__image" src={image} alt={title} />
