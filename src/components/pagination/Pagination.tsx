@@ -1,10 +1,10 @@
+import ReactPaginate from 'react-paginate';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPage } from '../../store/filter/filterSlice';
-import { RootState } from '../../store/store';
-import ReactPaginate from 'react-paginate';
+import { getCurrentPage } from '../../store/filter/selectors';
 
 function Pagination(): JSX.Element {
-  const currentPage = useSelector((state: RootState) => state.filter.pageCount);
+  const currentPage = useSelector(getCurrentPage);
   const dispatch = useDispatch();
 
   return (

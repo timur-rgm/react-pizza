@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../store/store';
 import { setFilters } from '../store/filter/filterSlice';
-import { fetchPizza } from '../store/pizza/pizzaSlice';
+import { fetchPizza } from '../store/pizza/asyncActions';
 import { getItems, getLoadingStatus } from '../store/pizza/selectors';
 import {
   getCurrentCategoryId,
